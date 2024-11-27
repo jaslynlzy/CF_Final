@@ -253,39 +253,31 @@ def Crisis_Analysis():
     # Download_CSV(filtered_data, download_csv_buttion)
 
 
-if __name__ == "__main__":
+# File uploader for Excel files
+uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
 
-    # Set the page configuration
-    # File uploader for Excel files
-    uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
+# Check if a file is uploaded
+if uploaded_file:
+    # Attempt to load data without a password
+    df, success = load_excel(uploaded_file)
 
-    # Check if a file is uploaded
-    if uploaded_file:
-        # Attempt to load data without a password
-        df, success = load_excel(uploaded_file)
+    if not success:
+        # Prompt for a password if the initial load failed
+        password = st.text_input("Enter the password for the Excel file", type="password")
+        if password:
+            df, success = load_excel(uploaded_file, password=password)
 
-        if not success:
-            # Prompt for a password if the initial load failed
-            password = st.text_input("Enter the password for the Excel file", type="password")
-            if password:
-                df, success = load_excel(uploaded_file, password=password)
-
-        if success:
-            # Clean and store data in session state
-            df_cleaned = clean_data(df)
-            st.session_state["df"] = df_cleaned
-            st.success("File uploaded and cleaned successfully!")
-        else:
-            st.error("Failed to load the file. Please check the password or file format.")
-
-    # Check if data exists in session state
-    if "df" in st.session_state:
-        st.header("Data Inputted")
-        st.write(st.session_state["df"])
+    if success:
+        # Clean and store data in session state
+        df_cleaned = clean_data(df)
+        st.session_state["df"] = df_cleaned
+        st.success("File uploaded and cleaned successfully!")
         # Run Crisis Analysis logic
         Crisis_Analysis()
     else:
-        st.write("Please upload a file to start.")
+        st.error("Failed to load the file. Please check the password or file format.")
+else:
+    st.write("Please upload a file to start.")
 
 
 
