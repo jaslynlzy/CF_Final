@@ -634,3 +634,4 @@ if st.session_state.data_loaded:
             # - Plot separate bars for each ward selected in the filter
         ward_voucher_graph(filtered_df_foodbanks)
 
+
