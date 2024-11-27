@@ -281,9 +281,6 @@ def Search_Client_History(df):
         else:
             st.write("History data not found")
 
-# Set the page configuration
-st.set_page_config(page_title="Foodbank Voucher Usage Dashboard", layout="wide")
-
 # File uploader for Excel files
 uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
 
