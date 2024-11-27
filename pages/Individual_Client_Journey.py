@@ -281,37 +281,34 @@ def Search_Client_History(df):
         else:
             st.write("History data not found")
 
-    
-if __name__ == "__main__":
+# Set the page configuration
+st.set_page_config(page_title="Foodbank Voucher Usage Dashboard", layout="wide")
 
-    # Set the page configuration
-    st.set_page_config(page_title="Foodbank Voucher Usage Dashboard", layout="wide")
+# File uploader for Excel files
+uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
 
-    # File uploader for Excel files
-    uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
+# Check if a file is uploaded
+if uploaded_file:
+    # Attempt to load data without a password
+    df, success = load_excel(uploaded_file)
 
-    # Check if a file is uploaded
-    if uploaded_file:
-        # Attempt to load data without a password
-        df, success = load_excel(uploaded_file)
+    if not success:
+        # Prompt for a password if the initial load failed
+        password = st.text_input("Enter the password for the Excel file", type="password")
+        if password:
+            df, success = load_excel(uploaded_file, password=password)
 
-        if not success:
-            # Prompt for a password if the initial load failed
-            password = st.text_input("Enter the password for the Excel file", type="password")
-            if password:
-                df, success = load_excel(uploaded_file, password=password)
-
-        if success:
-            # Clean and store data in session state
-            df_cleaned = clean_data(df)
-            st.session_state["df"] = df_cleaned
-            st.success("File uploaded and cleaned successfully!")
-        else:
-            st.error("Failed to load the file. Please check the password or file format.")
-
-    # Check if data exists in session state
-    if "df" in st.session_state:
-        Individual_Client_Journey(st.session_state["df"])
-        Search_Client_History(st.session_state["df"])
+    if success:
+        # Clean and store data in session state
+        df_cleaned = clean_data(df)
+        st.session_state["df"] = df_cleaned
+        st.success("File uploaded and cleaned successfully!")
     else:
-        st.write("Please input data file first")
+        st.error("Failed to load the file. Please check the password or file format.")
+
+# Check if data exists in session state
+if "df" in st.session_state:
+    Individual_Client_Journey(st.session_state["df"])
+    Search_Client_History(st.session_state["df"])
+else:
+    st.write("Please input data file first")
