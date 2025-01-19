@@ -34,8 +34,8 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
     except FileFormatError as e:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
         return df, True  # Successfully loaded
-    except Exception:
-        return None, False  # Failed to load
+    # except Exception:
+    #     return None, False  # Failed to load
 
 
 @st.cache_data(show_spinner=False)
