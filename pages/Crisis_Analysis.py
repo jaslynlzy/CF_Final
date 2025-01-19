@@ -48,7 +48,7 @@ def load_data(file, password=None):
 @st.cache_data
 def load_data():
     # Replace 'your_dataset.csv' with the path to your actual dataset
-    data = st.session_state["df"]
+    data = st.session_state["df1"]
 
     # Convert necessary date columns to datetime, handling errors
     data['created at'] = pd.to_datetime(data['created at'], errors='coerce')
@@ -203,8 +203,8 @@ def Download_CSV(filtered_data, button):
     )
 
 
-def Crisis_Analysis():
-    data = load_data()
+def Crisis_Analysis(data):
+    # data = load_data()
     # st.set_page_config(page_title="Foodbank Voucher Usage Dashboard", layout="wide")
     st.title("Crisis Analysis")
     st.sidebar.header("Filter Options")
@@ -270,14 +270,18 @@ if uploaded_file:
     if success:
         # Clean and store data in session state
         df_cleaned = clean_data(df)
-        st.session_state["df"] = df_cleaned
+        st.session_state["df1"] = df_cleaned
         st.success("File uploaded and cleaned successfully!")
         # Run Crisis Analysis logic
-        Crisis_Analysis()
+        
     else:
         st.error("Failed to load the file. Please check the password or file format.")
 else:
     st.write("Please upload a file to start.")
 
-
+# Check if data exists in session state
+if "df1" in st.session_state:
+    Crisis_Analysis(st.session_state["df1"])
+else:
+    st.write("Please input data file first")
 
