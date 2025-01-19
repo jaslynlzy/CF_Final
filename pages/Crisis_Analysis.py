@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import io
 import msoffcrypto
-from msoffcrypto.exceptions import FileFormatError
+from msoffcrypto.exceptions import DecryptionError
 
 st.title("Crisis Analysis Dashboard")
 
@@ -31,7 +31,7 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
         decrypted.seek(0)
         df = pd.read_excel(decrypted, engine='openpyxl')
         return df, True  # Successfully loaded
-    except FileFormatError as e:
+    except DecryptionError as e:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
         return df, True  # Successfully loaded
     # except Exception:
