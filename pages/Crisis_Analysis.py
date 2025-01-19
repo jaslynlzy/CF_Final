@@ -31,7 +31,7 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
         decrypted.seek(0)
         df = pd.read_excel(decrypted, engine='openpyxl')
         return df, True  # Successfully loaded
-    except FileFormatError:
+    except FileFormatError as e:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
         return df, True  # Successfully loaded
     except Exception:
