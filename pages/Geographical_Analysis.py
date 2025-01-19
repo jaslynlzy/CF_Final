@@ -120,8 +120,8 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
 @st.cache_data(show_spinner=False)
 def load_data(file, password=None):
     df, success = load_excel(file, password=password)
-    st.write(success)
     if success:
+        st.write('PASS 2')
         cleaned_df = clean_data(df)
         unique_postcodes = cleaned_df['postcode'].unique()
 
@@ -137,6 +137,8 @@ def load_data(file, password=None):
         cleaned_df = cleaned_df.dropna(subset=['latitude', 'longitude'])
 
         return cleaned_df, success
+    else: 
+        st.write('FAIL')
     return None, success
 
 def get_lat_lon(postcode):
