@@ -26,23 +26,20 @@ def load_excel(uploaded_file, password=None):
             - pd.DataFrame: The pd.DataFrame loaded
             - bool: True if successfully loaded
     """
-    decrypted = io.BytesIO()
-    office_file = msoffcrypto.OfficeFile(uploaded_file)
-
-    try:    # Try to load the file with a password
-        decrypted = io.BytesIO()
-        office_file = msoffcrypto.OfficeFile(uploaded_file)
-        office_file.load_key(password=password)
-
-        office_file.decrypt(decrypted)
-        decrypted.seek(0)
-        df = pd.read_excel(decrypted, engine='openpyxl')
-        return df, True  # Successfully loaded
-    except DecryptionError as e:
+    try:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
-        return df, True  # Successfully loaded
+        return df, True  # Successfully loaded without password
     except Exception:
-        return None, False  # Failed to load
+        try:
+            decrypted = io.BytesIO()
+            office_file = msoffcrypto.OfficeFile(uploaded_file)
+            office_file.load_key(password=password)
+            office_file.decrypt(decrypted)
+            decrypted.seek(0)
+            df = pd.read_excel(decrypted, engine='openpyxl')
+            return df, True  # Successfully loaded with password
+        except DecryptionError:
+            return None, False  # Failed to load due to decryption error
 
 
 @st.cache_data(show_spinner=False)

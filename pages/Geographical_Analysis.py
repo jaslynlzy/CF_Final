@@ -135,8 +135,6 @@ def load_data(file, password=None):
         cleaned_df = cleaned_df.dropna(subset=['latitude', 'longitude'])
 
         return cleaned_df, success
-    else: 
-        st.write('FAIL')
     return None, success
 
 def get_lat_lon(postcode):
