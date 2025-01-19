@@ -418,13 +418,11 @@ def ward_voucher_graph(df):
 st.markdown(f"<h1 style='text-align: center; color: #0A3D2E; font-family: Arial; font-size: 24px;'>Cirencester Foodbank Geo Analysis</h1>", unsafe_allow_html=True)
 set_custom_styles()
 
-# Create an expander with the dynamic text
-with st.expander(st.session_state.expander_title, expanded=True):
-    uploaded_file = st.file_uploader("", type=["xlsx"], on_change=set_expander_title)
+# File uploader for Excel files
+uploaded_file = st.file_uploader("Upload your Excel file", type="xlsx")
 
-    if uploaded_file:
+if uploaded_file:
         cleaned_df, st.session_state.data_loaded = load_data(uploaded_file)
-        st.session_state.expander_title = f"Uploaded file: '{uploaded_file.name}'"
         if not st.session_state.data_loaded:
             # Prompt for a password if the initial load failed
             password = st.text_input("Enter the password for the Excel file", type="password")
