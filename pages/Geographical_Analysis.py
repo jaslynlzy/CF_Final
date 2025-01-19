@@ -432,7 +432,12 @@ with st.expander(st.session_state.expander_title, expanded=True):
             password = st.text_input("Enter the password for the Excel file", type="password")
             if password:
                 cleaned_df, st.session_state.data_loaded = load_data(uploaded_file, password=password)
-        if st.session_state.data_loaded:
+                if not st.session_state.data_loaded:
+                    st.error("Failed to load the data. Please ensure the correct password is entered.")
+    else:
+        st.write("Please upload a file to start.")
+
+if st.session_state.data_loaded:
             # Display cleaned data and generate map
             with st.sidebar:
                 selected_tab = option_menu(
@@ -644,9 +649,3 @@ with st.expander(st.session_state.expander_title, expanded=True):
 
 
                 st.session_state.data_loaded = False
-        else:
-            st.error("Failed to load the data. Please ensure the correct password is entered.")
-    else:
-        st.write("Please upload a file to start.")
-
-
