@@ -100,8 +100,6 @@ def load_excel(uploaded_file, password=None):
             - pd.DataFrame: The pd.DataFrame loaded
             - bool: True if successfully loaded
     """
-    decrypted = io.BytesIO()
-    office_file = msoffcrypto.OfficeFile(uploaded_file)
 
     try:    # Try to load the file with a password
         decrypted = io.BytesIO()
