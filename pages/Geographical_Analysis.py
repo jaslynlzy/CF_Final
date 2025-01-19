@@ -88,7 +88,7 @@ def set_expander_title():
     if st.session_state.expander_title != 'Upload Excel file' and st.session_state.data_loaded:
         st.session_state.expander_title = 'Upload Excel file'
 
-def load_excel(uploaded_file, password=None):
+def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
     """
     Load the excel file into pd.dataframe
 
