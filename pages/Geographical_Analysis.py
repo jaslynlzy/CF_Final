@@ -436,213 +436,211 @@ with st.expander(st.session_state.expander_title, expanded=True):
                 if not st.session_state.data_loaded:
                     st.error("Incorrect password or the file is not accessible.")
 
-if st.session_state.data_loaded:
-    # Display cleaned data and generate map
-    with st.sidebar:
-        selected_tab = option_menu(
-            "",
-            ["Vouchers", "Per Capita"],
-            icons=["nan", "nan"],
-            default_index=0,
-            orientation="horizontal",
-        )
-        #voucher_tab, capita_tab = st.tabs(["Vouchers", "Per Capita"])
+        if st.session_state.data_loaded:
+            # Display cleaned data and generate map
+            with st.sidebar:
+                selected_tab = option_menu(
+                    "",
+                    ["Vouchers", "Per Capita"],
+                    icons=["nan", "nan"],
+                    default_index=0,
+                    orientation="horizontal",
+                )
+                #voucher_tab, capita_tab = st.tabs(["Vouchers", "Per Capita"])
 
-        if selected_tab == "Vouchers":
-            col1, col2 = st.columns([4, 2])
-            with col1:
-                st.markdown("<h4 style='margin-bottom: -10px;'>Select foodbank centres</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers assigned to selected foodbank(s)</h5></p>", unsafe_allow_html=True)
-            with col2:
-                # Define the "Select all" checkbox
-                select_all_foodbanks = st.checkbox('Select all', value=True, key="checkbox_foodbanks_voucher")
-            filter_foodbank = []
-            for option in ['Cirencester', 'Tetbury', 'Fairford']:
-                # Set each checkbox's default value based on the "Select all" checkbox
-                selected = st.checkbox(option, value=select_all_foodbanks, key=['voucher',option])
-                if selected:
-                    filter_foodbank.append(option)
-            st.session_state.filter_foodbank = filter_foodbank
+                if selected_tab == "Vouchers":
+                    col1, col2 = st.columns([4, 2])
+                    with col1:
+                        st.markdown("<h4 style='margin-bottom: -10px;'>Select foodbank centres</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers assigned to selected foodbank(s)</h5></p>", unsafe_allow_html=True)
+                    with col2:
+                        # Define the "Select all" checkbox
+                        select_all_foodbanks = st.checkbox('Select all', value=True, key="checkbox_foodbanks_voucher")
+                    filter_foodbank = []
+                    for option in ['Cirencester', 'Tetbury', 'Fairford']:
+                        # Set each checkbox's default value based on the "Select all" checkbox
+                        selected = st.checkbox(option, value=select_all_foodbanks, key=['voucher',option])
+                        if selected:
+                            filter_foodbank.append(option)
+                    st.session_state.filter_foodbank = filter_foodbank
 
-            st.markdown("<h4 style='margin-bottom: -10px;'>Exclude repeat households</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -60px;'>Only display first voucher issued to each household</h5></p>", unsafe_allow_html=True)
+                    st.markdown("<h4 style='margin-bottom: -10px;'>Exclude repeat households</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -60px;'>Only display first voucher issued to each household</h5></p>", unsafe_allow_html=True)
 
-            filter_repeat_addresses = st.radio(
-                "",
-                ["Yes", "No"],
-                key="filter_repeat_addresses_voucher"
-            )
-            st.session_state.filter_repeat_addresses = True if filter_repeat_addresses == "No" else False
+                    filter_repeat_addresses = st.radio(
+                        "",
+                        ["Yes", "No"],
+                        key="filter_repeat_addresses_voucher"
+                    )
+                    st.session_state.filter_repeat_addresses = True if filter_repeat_addresses == "No" else False
 
-            max_household_size = cleaned_df["household_size"].max()
-            st.markdown("<h4 style='margin-top: 15px; margin-bottom: -40px;'>Household size</h4>", unsafe_allow_html=True)
-            filter_household_size = st.slider("", 1, max_household_size, (1, max_household_size), key="filter_household_size_voucher")
-            st.session_state.filter_household_size = filter_household_size
+                    max_household_size = cleaned_df["household_size"].max()
+                    st.markdown("<h4 style='margin-top: 15px; margin-bottom: -40px;'>Household size</h4>", unsafe_allow_html=True)
+                    filter_household_size = st.slider("", 1, max_household_size, (1, max_household_size), key="filter_household_size_voucher")
+                    st.session_state.filter_household_size = filter_household_size
 
-            st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Voucher status</h4>", unsafe_allow_html=True)
-            filter_voucher_status = st.radio(
-                "",
-                ["Both", "Fulfilled", "Unfulfilled"],
-                key="filter_repeat_delivery_radio"
-            )
-            st.session_state.filter_voucher_status = filter_voucher_status
+                    st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Voucher status</h4>", unsafe_allow_html=True)
+                    filter_voucher_status = st.radio(
+                        "",
+                        ["Both", "Fulfilled", "Unfulfilled"],
+                        key="filter_repeat_delivery_radio"
+                    )
+                    st.session_state.filter_voucher_status = filter_voucher_status
 
-            st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Delivery required</h4>", unsafe_allow_html=True)
-            filter_delivery = st.radio(
-                "",
-                ["Both", "Yes", "No"]
-            )
-            st.markdown("<h4 style='margin-top: -10px;'></h4>",
-                        unsafe_allow_html=True)
-            if filter_delivery == "Both":
-                st.session_state.filter_delivery = None
-            elif filter_delivery == "Yes":
-                st.session_state.filter_delivery = True
-            else:
-                st.session_state.filter_delivery = False
+                    st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Delivery required</h4>", unsafe_allow_html=True)
+                    filter_delivery = st.radio(
+                        "",
+                        ["Both", "Yes", "No"]
+                    )
+                    st.markdown("<h4 style='margin-top: -10px;'></h4>",
+                                unsafe_allow_html=True)
+                    if filter_delivery == "Both":
+                        st.session_state.filter_delivery = None
+                    elif filter_delivery == "Yes":
+                        st.session_state.filter_delivery = True
+                    else:
+                        st.session_state.filter_delivery = False
 
-            col1, col2 = st.columns([4, 2])
-            with col1:
-                st.markdown("<h4 style='margin-bottom: -50px;'>Crisis type</h4>", unsafe_allow_html=True)
-            with col2:
-                select_all_crisis_types = st.checkbox('Select all', value=True, key="checkbox_crisis_types_voucher")
-            filter_crisis_type = []
-            options = sorted(cleaned_df['crisis type'].unique())
-            if 'Other' in options: # Move "Other" to the last position
-                options.remove('Other')
-                options.append('Other')
-            for option in options:
-                selected = st.checkbox(option, value=select_all_crisis_types, key=['voucher',option])
-                if selected:
-                    filter_crisis_type.append(option)
-            st.session_state.filter_crisis_type = filter_crisis_type
-
-
-        if selected_tab == "Per Capita":
-            col1, col2 = st.columns([4, 2])
-            with col1:
-                st.markdown("<h4 style='margin-bottom: -10px;'>Select foodbank centres</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers assigned to selected foodbank(s)</h5></p>", unsafe_allow_html=True)
-            with col2:
-                # Define the "Select all" checkbox
-                select_all_foodbanks = st.checkbox('Select all', value=True, key="checkbox_foodbanks_capita")
-            filter_foodbank = []
-            for option in ['Cirencester', 'Tetbury', 'Fairford']:
-                # Set each checkbox's default value based on the "Select all" checkbox
-                selected = st.checkbox(option, value=select_all_foodbanks, key=['capita',option])
-                if selected:
-                    filter_foodbank.append(option)
-            st.session_state.filter_foodbank = filter_foodbank
-
-            st.markdown("<h4 style='margin-bottom: -10px;'>Exclude repeat households</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -60px;'>Only display first voucher issued to each household</h5></p>", unsafe_allow_html=True)
-
-            filter_repeat_addresses = st.radio(
-                "",
-                ["Yes", "No"],
-                key="filter_repeat_addresses_voucher"
-            )
-            st.session_state.filter_repeat_addresses = True if filter_repeat_addresses == "No" else False
+                    col1, col2 = st.columns([4, 2])
+                    with col1:
+                        st.markdown("<h4 style='margin-bottom: -50px;'>Crisis type</h4>", unsafe_allow_html=True)
+                    with col2:
+                        select_all_crisis_types = st.checkbox('Select all', value=True, key="checkbox_crisis_types_voucher")
+                    filter_crisis_type = []
+                    options = sorted(cleaned_df['crisis type'].unique())
+                    if 'Other' in options: # Move "Other" to the last position
+                        options.remove('Other')
+                        options.append('Other')
+                    for option in options:
+                        selected = st.checkbox(option, value=select_all_crisis_types, key=['voucher',option])
+                        if selected:
+                            filter_crisis_type.append(option)
+                    st.session_state.filter_crisis_type = filter_crisis_type
 
 
-            col1, col2 = st.columns([4, 2])
-            with col1:
-                st.markdown("<h4 style='margin-bottom: -10px';>Age groups</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers where household contains selected age group(s)</h5></p>", unsafe_allow_html=True)
-            with col2:
-                select_all_age_groups = st.checkbox('Select all', value=True, key="checkbox_age_groups")
-            filter_age_group = []
-            for option in age_groups.keys():
-                selected = st.checkbox(option, value=select_all_age_groups, key=['age group',option])
-                if selected:
-                    filter_age_group.append(option)
-            st.session_state.filter_age_group = filter_age_group
+                if selected_tab == "Per Capita":
+                    col1, col2 = st.columns([4, 2])
+                    with col1:
+                        st.markdown("<h4 style='margin-bottom: -10px;'>Select foodbank centres</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers assigned to selected foodbank(s)</h5></p>", unsafe_allow_html=True)
+                    with col2:
+                        # Define the "Select all" checkbox
+                        select_all_foodbanks = st.checkbox('Select all', value=True, key="checkbox_foodbanks_capita")
+                    filter_foodbank = []
+                    for option in ['Cirencester', 'Tetbury', 'Fairford']:
+                        # Set each checkbox's default value based on the "Select all" checkbox
+                        selected = st.checkbox(option, value=select_all_foodbanks, key=['capita',option])
+                        if selected:
+                            filter_foodbank.append(option)
+                    st.session_state.filter_foodbank = filter_foodbank
 
-            st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Voucher status</h4>",
-                        unsafe_allow_html=True)
-            filter_voucher_status = st.radio(
-                "",
-                ["Both", "Fulfilled", "Unfulfilled"]
-            )
-            st.session_state.filter_voucher_status = filter_voucher_status
+                    st.markdown("<h4 style='margin-bottom: -10px;'>Exclude repeat households</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -60px;'>Only display first voucher issued to each household</h5></p>", unsafe_allow_html=True)
 
-            st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Delivery required</h4>",
-                        unsafe_allow_html=True)
-            filter_delivery = st.radio(
-                "",
-                ["Both", "Yes", "No"],
-                key="filter_repeat_delivery_capita"
-            )
-            st.markdown("<h4 style='margin-top: -10px;'></h4>",
-                        unsafe_allow_html=True)
-            if filter_delivery == "Both":
-                st.session_state.filter_delivery = None
-            elif filter_delivery == "Yes":
-                st.session_state.filter_delivery = True
-            else:
-                st.session_state.filter_delivery = False
-
-            col1, col2 = st.columns([4, 2])
-            with col1:
-                st.markdown("<h4 style='margin-bottom: -50px;'>Crisis type</h4>", unsafe_allow_html=True)
-            with col2:
-                select_all_crisis_types = st.checkbox('Select all', value=True, key="checkbox_crisis_types_capita")
-            filter_crisis_type = []
-            options = sorted(cleaned_df['crisis type'].unique())
-            if 'Other' in options: # Move "Other" to the last position
-                options.remove('Other')
-                options.append('Other')
-            for option in options:
-                selected = st.checkbox(option, value=select_all_crisis_types, key=['capita',option])
-                if selected:
-                    filter_crisis_type.append(option)
-            st.session_state.filter_crisis_type = filter_crisis_type
-
-    filtered_df = cleaned_df[cleaned_df["crisis type"].isin(st.session_state.filter_crisis_type)]
-
-    if selected_tab == 'Vouchers':
-        filtered_df = filtered_df[(cleaned_df["household_size"] >= st.session_state.filter_household_size[0]) &
-        (cleaned_df["household_size"] <= st.session_state.filter_household_size[1])]
-
-    if selected_tab == 'Per Capita':
-        filtered_df = filtered_df[cleaned_df[st.session_state.filter_age_group].any(axis=1)]
-
-    if not st.session_state.filter_repeat_addresses:
-        filtered_df.drop_duplicates(subset=['address1', 'address2'], keep='first', inplace=True)
-
-    if st.session_state.filter_delivery != None:
-        filtered_df = filtered_df[filtered_df["delivery required"] == st.session_state.filter_delivery]
-
-    if st.session_state.filter_voucher_status != 'Both':
-        filtered_df = filtered_df[filtered_df["voucher status"] == st.session_state.filter_voucher_status]
-
-    filtered_df_foodbanks = filtered_df[cleaned_df["assigned food bank centre"].isin(st.session_state.filter_foodbank)] # filter the selected foodbanks
-
-    if selected_tab == "Vouchers":
-        st.subheader("Total vouchers issued across postcodes")
-        postcode_search = None
-        if filtered_df_foodbanks.shape[0] > 0:
-            postcode_search = st.text_input("Postcode search", "")
-        if postcode_search:
-            filtered_df_foodbanks_postcode = filtered_df_foodbanks[filtered_df_foodbanks['postcode'].str.contains(postcode_search, na=False)]
-            postcode_map(filtered_df_foodbanks_postcode)
-        else:
-            postcode_map(filtered_df_foodbanks)
-
-        # - Monthly line graph: total voucher issued across months
-            # - Always plot total vouchers across all foodbanks
-            # - Plot separate lines for each foodbank selected in the filter
-        monthly_voucher_graph(filtered_df)
-
-        # - Historical graph: total voucher issued across time
-            # - Always plot total vouchers across all foodbanks
-            # - Plot separate lines for each foodbank selected in the filter
-
-        historical_voucher_graph(filtered_df)
-
-    if selected_tab == "Per Capita":
-        #capita_map(filtered_df_foodbanks)
-        st.subheader("Voucher usage per capita across wards")
-        ward_map(filtered_df_foodbanks)
-
-        # - Bar graph: voucher usage per capita across wards with different opacities for selected age groups
-            # - Plot total voucher usage per capita across all wards
-            # - Plot separate bars for each ward selected in the filter
-        ward_voucher_graph(filtered_df_foodbanks)
+                    filter_repeat_addresses = st.radio(
+                        "",
+                        ["Yes", "No"],
+                        key="filter_repeat_addresses_voucher"
+                    )
+                    st.session_state.filter_repeat_addresses = True if filter_repeat_addresses == "No" else False
 
 
+                    col1, col2 = st.columns([4, 2])
+                    with col1:
+                        st.markdown("<h4 style='margin-bottom: -10px';>Age groups</h4><h5 style='font-size: 12px; font-weight: 400; color: gray; margin-bottom: -30px;'>Display vouchers where household contains selected age group(s)</h5></p>", unsafe_allow_html=True)
+                    with col2:
+                        select_all_age_groups = st.checkbox('Select all', value=True, key="checkbox_age_groups")
+                    filter_age_group = []
+                    for option in age_groups.keys():
+                        selected = st.checkbox(option, value=select_all_age_groups, key=['age group',option])
+                        if selected:
+                            filter_age_group.append(option)
+                    st.session_state.filter_age_group = filter_age_group
+
+                    st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Voucher status</h4>",
+                                unsafe_allow_html=True)
+                    filter_voucher_status = st.radio(
+                        "",
+                        ["Both", "Fulfilled", "Unfulfilled"]
+                    )
+                    st.session_state.filter_voucher_status = filter_voucher_status
+
+                    st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Delivery required</h4>",
+                                unsafe_allow_html=True)
+                    filter_delivery = st.radio(
+                        "",
+                        ["Both", "Yes", "No"],
+                        key="filter_repeat_delivery_capita"
+                    )
+                    st.markdown("<h4 style='margin-top: -10px;'></h4>",
+                                unsafe_allow_html=True)
+                    if filter_delivery == "Both":
+                        st.session_state.filter_delivery = None
+                    elif filter_delivery == "Yes":
+                        st.session_state.filter_delivery = True
+                    else:
+                        st.session_state.filter_delivery = False
+
+                    col1, col2 = st.columns([4, 2])
+                    with col1:
+                        st.markdown("<h4 style='margin-bottom: -50px;'>Crisis type</h4>", unsafe_allow_html=True)
+                    with col2:
+                        select_all_crisis_types = st.checkbox('Select all', value=True, key="checkbox_crisis_types_capita")
+                    filter_crisis_type = []
+                    options = sorted(cleaned_df['crisis type'].unique())
+                    if 'Other' in options: # Move "Other" to the last position
+                        options.remove('Other')
+                        options.append('Other')
+                    for option in options:
+                        selected = st.checkbox(option, value=select_all_crisis_types, key=['capita',option])
+                        if selected:
+                            filter_crisis_type.append(option)
+                    st.session_state.filter_crisis_type = filter_crisis_type
+
+            filtered_df = cleaned_df[cleaned_df["crisis type"].isin(st.session_state.filter_crisis_type)]
+
+            if selected_tab == 'Vouchers':
+                filtered_df = filtered_df[(cleaned_df["household_size"] >= st.session_state.filter_household_size[0]) &
+                (cleaned_df["household_size"] <= st.session_state.filter_household_size[1])]
+
+            if selected_tab == 'Per Capita':
+                filtered_df = filtered_df[cleaned_df[st.session_state.filter_age_group].any(axis=1)]
+
+            if not st.session_state.filter_repeat_addresses:
+                filtered_df.drop_duplicates(subset=['address1', 'address2'], keep='first', inplace=True)
+
+            if st.session_state.filter_delivery != None:
+                filtered_df = filtered_df[filtered_df["delivery required"] == st.session_state.filter_delivery]
+
+            if st.session_state.filter_voucher_status != 'Both':
+                filtered_df = filtered_df[filtered_df["voucher status"] == st.session_state.filter_voucher_status]
+
+            filtered_df_foodbanks = filtered_df[cleaned_df["assigned food bank centre"].isin(st.session_state.filter_foodbank)] # filter the selected foodbanks
+
+            if selected_tab == "Vouchers":
+                st.subheader("Total vouchers issued across postcodes")
+                postcode_search = None
+                if filtered_df_foodbanks.shape[0] > 0:
+                    postcode_search = st.text_input("Postcode search", "")
+                if postcode_search:
+                    filtered_df_foodbanks_postcode = filtered_df_foodbanks[filtered_df_foodbanks['postcode'].str.contains(postcode_search, na=False)]
+                    postcode_map(filtered_df_foodbanks_postcode)
+                else:
+                    postcode_map(filtered_df_foodbanks)
+
+                # - Monthly line graph: total voucher issued across months
+                    # - Always plot total vouchers across all foodbanks
+                    # - Plot separate lines for each foodbank selected in the filter
+                monthly_voucher_graph(filtered_df)
+
+                # - Historical graph: total voucher issued across time
+                    # - Always plot total vouchers across all foodbanks
+                    # - Plot separate lines for each foodbank selected in the filter
+
+                historical_voucher_graph(filtered_df)
+
+            if selected_tab == "Per Capita":
+                #capita_map(filtered_df_foodbanks)
+                st.subheader("Voucher usage per capita across wards")
+                ward_map(filtered_df_foodbanks)
+
+                # - Bar graph: voucher usage per capita across wards with different opacities for selected age groups
+                    # - Plot total voucher usage per capita across all wards
+                    # - Plot separate bars for each ward selected in the filter
+                ward_voucher_graph(filtered_df_foodbanks)
