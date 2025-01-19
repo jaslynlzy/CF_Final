@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import io
 import msoffcrypto
+from msoffcrypto.exceptions import FileFormatError
 
 st.title("Crisis Analysis Dashboard")
 
@@ -20,22 +21,21 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
             - pd.DataFrame: The pd.DataFrame loaded
             - bool: True if successfully loaded
     """
-    decrypted = io.BytesIO()
-    office_file = msoffcrypto.OfficeFile(uploaded_file)
 
-    try:
-        # Try loading without a password initially
-        if password:
-            office_file.load_key(password=password)
-        else:
-            office_file.load_key(password="")
+    try:    # Try to load the file with a password
+        decrypted = io.BytesIO()
+        office_file = msoffcrypto.OfficeFile(uploaded_file)
+        office_file.load_key(password=password)
 
         office_file.decrypt(decrypted)
         decrypted.seek(0)
         df = pd.read_excel(decrypted, engine='openpyxl')
         return df, True  # Successfully loaded
-    except:
-        return None, False  # Failed to load, likely password-protected
+    except FileFormatError:
+        df = pd.read_excel(uploaded_file, engine='openpyxl')
+        return df, True  # Successfully loaded
+    except Exception:
+        return None, False  # Failed to load
 
 
 @st.cache_data(show_spinner=False)
