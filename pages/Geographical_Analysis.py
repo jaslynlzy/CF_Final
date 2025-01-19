@@ -16,9 +16,9 @@ import numpy as np
 
 # Create a connection object.
 conn_postcodes = st.connection("gsheets_postcodes", type=GSheetsConnection)
-df_postcodes = conn_postcodes.read('https://docs.google.com/spreadsheets/d/1fJ-SJPjldp8-LuaT9wdp_FoS518gSNlkN5wN849EUlo/edit?usp=sharing')
+df_postcodes = conn_postcodes.read(spreadsheet = 'https://docs.google.com/spreadsheets/d/1fJ-SJPjldp8-LuaT9wdp_FoS518gSNlkN5wN849EUlo/edit?usp=sharing')
 conn_wards = st.connection("gsheets_wards", type=GSheetsConnection)
-df_wards = conn_wards.read('https://docs.google.com/spreadsheets/d/1tmk5cTIc3TNScbSeJgVMKcsCieVLtiY8YjS1Ma3rRLo/edit?usp=sharing')
+df_wards = conn_wards.read(spreadsheet = 'https://docs.google.com/spreadsheets/d/1tmk5cTIc3TNScbSeJgVMKcsCieVLtiY8YjS1Ma3rRLo/edit?usp=sharing')
 
 
 age_groups = {'0-4': range(0, 5), '5-11': range(5, 12), '12-16': range(12, 17), '17-24': range(17, 25),
