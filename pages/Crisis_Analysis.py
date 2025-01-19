@@ -37,27 +37,6 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
     except Exception:
         return None, False  # Failed to load
 
-
-@st.cache_data(show_spinner=False)
-def load_data(file, password=None):
-    df, success = load_excel(file, password=password)
-    if success:
-        return df, success
-    return None, success
-
-@st.cache_data
-def load_data():
-    # Replace 'your_dataset.csv' with the path to your actual dataset
-    data = st.session_state["df1"]
-
-    # Convert necessary date columns to datetime, handling errors
-    data['created at'] = pd.to_datetime(data['created at'], errors='coerce')
-    data['date issued to client'] = pd.to_datetime(data['date issued to client'], errors='coerce')
-    data['fulfilled date'] = pd.to_datetime(data['fulfilled date'], errors='coerce')
-
-    return data
-
-
 def Voucher_Usage_Analysis(filtered_data):
     st.header("Voucher Usage Analysis")
 
