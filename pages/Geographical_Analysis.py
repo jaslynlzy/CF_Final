@@ -431,7 +431,7 @@ with st.expander(st.session_state.expander_title, expanded=True):
             if password:
                 cleaned_df, st.session_state.data_loaded = load_data(uploaded_file, password=password)
                 if not st.session_state.data_loaded:
-                    st.error("Failed to load the data. Please ensure the correct password is entered.")
+                    st.error("Failed to load the file. Please check the password or file format.")
         if st.session_state.data_loaded:
             st.session_state["df2"] = cleaned_df
 

@@ -245,16 +245,14 @@ if uploaded_file:
         password = st.text_input("Enter the password for the Excel file", type="password")
         if password:
             df, success = load_excel(uploaded_file, password=password)
+            if not success: 
+                st.error("Failed to load the file. Please check the password or file format.")
 
     if success:
         # Clean and store data in session state
         df_cleaned = clean_data(df)
         st.session_state["df1"] = df_cleaned
         st.success("File uploaded and cleaned successfully!")
-        # Run Crisis Analysis logic
-        
-    else:
-        st.error("Failed to load the file. Please check the password or file format.")
 
 # Check if data exists in session state
 if "df1" in st.session_state:
