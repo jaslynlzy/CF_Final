@@ -436,8 +436,6 @@ with st.expander(st.session_state.expander_title, expanded=True):
                     st.error("Failed to load the data. Please ensure the correct password is entered.")
         if st.session_state.data_loaded:
             st.session_state["df2"] = cleaned_df
-    else:
-        st.write("Please upload a file to start.")
 
 if 'df2' in st.session_state:
     cleaned_df = st.session_state["df2"]
@@ -623,3 +621,5 @@ if 'df2' in st.session_state:
         ward_voucher_graph(filtered_df_foodbanks)
 
     st.session_state.data_loaded = False
+else:
+    st.write("Please upload a file to start.")

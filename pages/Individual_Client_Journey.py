@@ -311,4 +311,4 @@ if "df" in st.session_state:
     Individual_Client_Journey(st.session_state["df"])
     Search_Client_History(st.session_state["df"])
 else:
-    st.write("Please input data file first")
+    st.write("Please upload a file to start.")

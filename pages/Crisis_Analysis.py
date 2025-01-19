@@ -255,12 +255,10 @@ if uploaded_file:
         
     else:
         st.error("Failed to load the file. Please check the password or file format.")
-else:
-    st.write("Please upload a file to start.")
 
 # Check if data exists in session state
 if "df1" in st.session_state:
     Crisis_Analysis(st.session_state["df1"])
 else:
-    st.write("Please input data file first")
+    st.write("Please upload a file to start.")
 
