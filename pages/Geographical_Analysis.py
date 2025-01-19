@@ -103,6 +103,7 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
 
     try:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
+        st.write("PASS")
         return df, True  # Successfully loaded without password
     except Exception:
         try:
@@ -119,6 +120,7 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
 @st.cache_data(show_spinner=False)
 def load_data(file, password=None):
     df, success = load_excel(file, password=password)
+    st.writes(success)
     if success:
         cleaned_df = clean_data(df)
         unique_postcodes = cleaned_df['postcode'].unique()
@@ -645,6 +647,6 @@ with st.expander(st.session_state.expander_title, expanded=True):
         else:
             st.error("Failed to load the data. Please ensure the correct password is entered.")
     else:
-        st.warning("Please upload a file to start.")
+        st.write("Please upload a file to start.")
 
 
