@@ -6,13 +6,15 @@ import plotly.graph_objects as go
 import numpy as np
 import io
 import msoffcrypto
+from msoffcrypto.exceptions import DecryptionError
+
 
 from dbclean_1 import individual_journey_filter
 from dbclean_1 import clean_data
 
 st.title("Individual Client Journey")
 
-def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
+def load_excel(uploaded_file, password=None):
     """
     Load the excel file into pd.dataframe
 
@@ -27,19 +29,20 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
     decrypted = io.BytesIO()
     office_file = msoffcrypto.OfficeFile(uploaded_file)
 
-    try:
-        # Try loading without a password initially
-        if password:
-            office_file.load_key(password=password)
-        else:
-            office_file.load_key(password="")
+    try:    # Try to load the file with a password
+        decrypted = io.BytesIO()
+        office_file = msoffcrypto.OfficeFile(uploaded_file)
+        office_file.load_key(password=password)
 
         office_file.decrypt(decrypted)
         decrypted.seek(0)
         df = pd.read_excel(decrypted, engine='openpyxl')
         return df, True  # Successfully loaded
-    except:
-        return None, False  # Failed to load, likely password-protected
+    except DecryptionError as e:
+        df = pd.read_excel(uploaded_file, engine='openpyxl')
+        return df, True  # Successfully loaded
+    except Exception:
+        return None, False  # Failed to load
 
 
 @st.cache_data(show_spinner=False)

@@ -13,6 +13,7 @@ from branca.colormap import linear
 from streamlit_gsheets import GSheetsConnection
 import plotly.express as px
 import numpy as np
+from msoffcrypto.exceptions import DecryptionError
 
 # Create a connection object.
 conn_postcodes = st.connection("gsheets_postcodes", type=GSheetsConnection)
@@ -88,22 +89,34 @@ def set_expander_title():
         st.session_state.expander_title = 'Upload Excel file'
 
 def load_excel(uploaded_file, password=None):
+    """
+    Load the excel file into pd.dataframe
+
+    Parameters:
+        uploaded_file: The excel file to be transftered
+        password: the password for the excel
+    Returns:
+        tuple: A tuple containing:
+            - pd.DataFrame: The pd.DataFrame loaded
+            - bool: True if successfully loaded
+    """
     decrypted = io.BytesIO()
     office_file = msoffcrypto.OfficeFile(uploaded_file)
 
-    try:
-        # Try loading without a password initially
-        if password:
-            office_file.load_key(password=password)
-        else:
-            office_file.load_key(password="")
+    try:    # Try to load the file with a password
+        decrypted = io.BytesIO()
+        office_file = msoffcrypto.OfficeFile(uploaded_file)
+        office_file.load_key(password=password)
 
         office_file.decrypt(decrypted)
         decrypted.seek(0)
         df = pd.read_excel(decrypted, engine='openpyxl')
         return df, True  # Successfully loaded
-    except:
-        return None, False  # Failed to load, likely password-protected
+    except DecryptionError as e:
+        df = pd.read_excel(uploaded_file, engine='openpyxl')
+        return df, True  # Successfully loaded
+    except Exception:
+        return None, False  # Failed to load
 
 @st.cache_data(show_spinner=False)
 def load_data(file, password=None):
