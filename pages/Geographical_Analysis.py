@@ -119,9 +119,8 @@ def load_excel(uploaded_file, password=None) -> tuple[pd.DataFrame, bool]:
 @st.cache_data(show_spinner=False)
 def load_data(file, password=None):
     df, success = load_excel(file, password=password)
-    st.write(str(success),type(success))
     if success:
-        st.write('PASS2')
+        st.success("File uploaded and cleaned successfully!")
         cleaned_df = clean_data(df)
         unique_postcodes = cleaned_df['postcode'].unique()
 
