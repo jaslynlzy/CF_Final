@@ -14,6 +14,78 @@ from dbclean_1 import clean_data
 
 st.title("Individual Client Journey")
 
+column_headings = ['Voucher code', 'Created at', 'Date issued to client', 'Fulfilled date',
+       'Signposted date', 'First name', 'Last name', 'No fixed address',
+       'Address1', 'Address2', 'Town', 'County', 'Postcode', 'Birth year',
+       'The usual household structure pre 4th April 2023: Children (0 - 4 yrs)',
+       'The usual household structure pre 4th April 2023: Children (5 - 11 yrs)',
+       'The usual household structure pre 4th April 2023: Children (12 - 16 yrs)',
+       'The usual household structure pre 4th April 2023: Children (unknown age)',
+       'The usual household structure pre 4th April 2023: Adults (17 - 24 yrs)',
+       'The usual household structure pre 4th April 2023: Adults (25 - 64 yrs)',
+       'The usual household structure pre 4th April 2023: Adults (Over 65 yrs)',
+       'The usual household structure pre 4th April 2023: Adults (unknown age)',
+       'The usual household structure: Children (0 - 4 yrs)',
+       'The usual household structure: Children (5 - 11 yrs)',
+       'The usual household structure: Children (12 - 16 yrs)',
+       'The usual household structure: Children (not specified)',
+       'The usual household structure: Adults (17 - 24 yrs)',
+       'The usual household structure: Adults (25 - 34 yrs)',
+       'The usual household structure: Adults (35 - 44 yrs)',
+       'The usual household structure: Adults (45 - 54 yrs)',
+       'The usual household structure: Adults (55 - 64 yrs)',
+       'The usual household structure: Adults (65 - 74 yrs)',
+       'The usual household structure: Adults (75+ yrs)',
+       'The usual household structure: Adults (not specified)', 'Red',
+       'Emergency food box', 'Printable', 'Crisis type', 'Crisis cause',
+       'Crisis sub cause', 'Crisis cause description',
+       'Was Covid-19 a contributing factor?', 'Parcel days',
+       'Consent for contacting about delivery or collection',
+       'Client email address', 'Client phone number',
+       'Secondary crisis: Benefit changes', 'Secondary crisis: Benefit delays',
+       'Secondary crisis: Low income',
+       'Secondary crisis: Refused short term benefit advance',
+       'Secondary crisis: Delayed wages', 'Secondary crisis: Debt',
+       'Secondary crisis: Homeless',
+       'Secondary crisis: No recourse to public funds',
+       'Secondary crisis: Domestic abuse',
+       'Secondary crisis: Sickness/ill health',
+       'Secondary crisis: Child holiday meals', 'Secondary crisis: Other',
+       'Source of income', 'Reasons for referral',
+       'Reasons for referral - notes',
+       'Number of people the voucher is for pre 4th April 2023: Children (0 - 4 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Children (5 - 11 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Children (12 - 16 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Children (unknown age)',
+       'Number of people the voucher is for pre 4th April 2023: Adults (17 - 24 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Adults (25 - 64 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Adults (Over 65 yrs)',
+       'Number of people the voucher is for pre 4th April 2023: Adults (unknown age)',
+       'Number of people the voucher is for: Children (0 - 4 yrs)',
+       'Number of people the voucher is for: Children (5 - 11 yrs)',
+       'Number of people the voucher is for: Children (12 - 16 yrs)',
+       'Number of people the voucher is for: Children (not specified)',
+       'Number of people the voucher is for: Adults (17 - 24 yrs)',
+       'Number of people the voucher is for: Adults (25 - 34 yrs)',
+       'Number of people the voucher is for: Adults (35 - 44 yrs)',
+       'Number of people the voucher is for: Adults (45 - 54 yrs)',
+       'Number of people the voucher is for: Adults (55 - 64 yrs)',
+       'Number of people the voucher is for: Adults (65 - 74 yrs)',
+       'Number of people the voucher is for: Adults (75+ yrs)',
+       'Number of people the voucher is for: Adults (not specified)',
+       'Partner or spouse (usual household structure)',
+       'Parent or carer (usual household structure)',
+       'Partner or spouse (number of people the voucher is for)',
+       'Parent or carer (number of people the voucher is for)', 'Ward',
+       'Assigned food bank centre', 'Agency contact phone',
+       'Notes regarding parcel requirements',
+       'Reason for needing more than 3 vouchers in the last 6 months',
+       'Reason for needing more than 3 vouchers in the last 6 months - notes',
+       'Agency', 'Issued by', 'Delivery required', 'Collection/Delivery notes',
+       'Consent for holding information about dietary requirements',
+       'Dietary requirements', 'Client ID', 'Foodbank centre fulfilled at',
+       'Voucher status']
+
 def load_excel(uploaded_file, password=None):
     """
     Load the excel file into pd.dataframe
@@ -28,6 +100,7 @@ def load_excel(uploaded_file, password=None):
     """
     try:
         df = pd.read_excel(uploaded_file, engine='openpyxl')
+        df = df[column_headings]
         return df, True  # Successfully loaded without password
     except Exception:
         try:
@@ -37,6 +110,7 @@ def load_excel(uploaded_file, password=None):
             office_file.decrypt(decrypted)
             decrypted.seek(0)
             df = pd.read_excel(decrypted, engine='openpyxl')
+            df = df[column_headings]
             return df, True  # Successfully loaded with password
         except DecryptionError:
             return None, False  # Failed to load due to decryption error
