@@ -539,9 +539,9 @@ if 'df2' in st.session_state:
             )
             st.session_state.filter_repeat_addresses = True if filter_repeat_addresses == "No" else False
 
-            max_household_size = int(cleaned_df["household_size"].max())
+            max_household_size = max(int(cleaned_df["household_size"].max()),2)
             st.markdown("<h4 style='margin-top: 15px; margin-bottom: -40px;'>Household size</h4>", unsafe_allow_html=True)
-            filter_household_size = st.slider("", 1, max_household_size, (1, max_household_size), key="filter_household_size_voucher")
+            filter_household_size = st.slider("", 1, 1, (1, 1), key="filter_household_size_voucher")
             st.session_state.filter_household_size = filter_household_size
 
             st.markdown("<h4 style='margin-top: 15px; margin-bottom: -50px;'>Voucher status</h4>", unsafe_allow_html=True)
