@@ -1,6 +1,6 @@
 # Food Aid Insights Dashboard
 
-Interactive Streamlit dashboard ingesting **5,000+ records over 3 years** of food aid voucher referrals across **100 parameters**,  dynamically visualising high-need regions, seasonal trends, and client return patterns to support targeted resource allocation. As a critical tool in the client's workflow, the platform enables insights that increase accountability and reduce response times for urgent food aid referrals. 
+Interactive Streamlit dashboard ingesting **5,000+ records over 3 years** of food aid voucher referrals across **100 parameters**,  dynamically visualising high-need regions, seasonal trends, and client return patterns to **support targeted resource allocation**. As a critical tool in the client's workflow, the platform enables insights that increase accountability and reduce response times for urgent food aid referrals.<br>
 Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180DC Bristol.<br><br>
 
 
