@@ -1,4 +1,4 @@
-<img width="1431" height="817" alt="cirencester-foodbank-cover2" src="https://github.com/user-attachments/assets/ffb8f6e3-4ee8-456b-8653-e40be585b85c" /># Food Aid Insights Dashboard
+# Food Aid Insights Dashboard
 
 Interactive dashboard processing **5,000+ records spanning 3 years** of food aid voucher referrals across **100 parameters**, delivering dynamic insights on regional demand, seasonal trends, and client return patterns to **drive targeted aid allocation**. As a critical tool in the client's workflow, the platform enables insights that increase accountability and reduce response times for urgent food aid referrals.
 
