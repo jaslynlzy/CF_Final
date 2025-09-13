@@ -4,7 +4,7 @@ Interactive dashboard processing **5,000+ records spanning 3 years** of food aid
 
 Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180 Degrees Consulting Bristol.
 
-📹 [Watch Demo Video](https://www.loom.com/share/4fbded85106a440c8c09a362d5ad8b6a?sid=88d4ae07-20d1-45ec-ac47-c20843bd1932)<br>
+📹 [Watch Demo Video](https://www.loom.com/share/a495e1b0bdb147ddabab61b42adb03a5?sid=f3b5b73f-6503-484d-8b16-02cdaa14bca1)<br>
 📊 [Download Project Presentation (PDF)](https://github.com/user-attachments/files/22283396/Cirencester.Foodbank.Presentation.pdf)<br><br> 
 
 ## 🛠 Tech Stack
