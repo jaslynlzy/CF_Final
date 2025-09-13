@@ -2,7 +2,7 @@
 
 Interactive dashboard processing **5,000+ records spanning 3 years** of food aid voucher referrals across **100 parameters**, delivering dynamic insights on regional demand, seasonal trends, and client return patterns to **drive targeted aid allocation**. As a critical tool in the client's workflow, the platform enables insights that increase accountability and reduce response times for urgent food aid referrals.
 
-Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180DC Bristol.
+Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180 Degrees Consulting Bristol.
 
 💾 [Download Project Presentation (PDF)](https://github.com/user-attachments/files/22283396/Cirencester.Foodbank.Presentation.pdf)<br><br>
 ▶️ [Watch Demo Video](https://www.loom.com/share/4fbded85106a440c8c09a362d5ad8b6a?sid=88d4ae07-20d1-45ec-ac47-c20843bd1932)<br><br>  
