@@ -10,7 +10,7 @@ Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180 D
 ## 🛠 Tech Stack
 
 - **Data Analysis:** Pandas, NumPy
-- **Visualisation:** Matplotlib, Seaborn, Plotly, Folium  
+- **Visualisation:** Matplotlib, Seaborn, Plotly, Folium, GeoPandas
 - **Frontend:** Streamlit (Python)<br><br>
 
 ## 📝 Project Overview
