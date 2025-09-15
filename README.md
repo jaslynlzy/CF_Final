@@ -1,6 +1,6 @@
 # Food Aid Insights Dashboard
 
-Interactive dashboard processing **5,000+ records spanning 3 years** of food aid voucher referrals across **100 parameters**, delivering dynamic insights on regional demand, seasonal trends, and client return patterns to **drive targeted aid allocation**. As a critical tool in the client's workflow, the platform enables insights that increase accountability and reduce response times for urgent food aid referrals.
+**Interactive data visualisation dashboard** processing **5,000 food aid voucher referrals** across **100 fields**, delivering **3 years of insights** on regional demand, seasonal trends, and client return patterns to enable targeted aid allocation and reduce response times for urgent food aid referrals.
 
 Developed for **Cirencester Foodbank** as a **Data Science Consultant** at 180 Degrees Consulting Bristol.
 
